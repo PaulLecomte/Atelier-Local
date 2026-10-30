@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="fr">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AtelierLocal — Énoncé du projet final</title><style>
+:root{font-family:system-ui,sans-serif;color:#183c35;background:#f7f5ee;line-height:1.65}body{margin:0}main{max-width:850px;padding:35px 24px 70px;margin:auto}h1,h2,h3{line-height:1.3}h1{font-size:2.15rem}h2{margin-top:2.4rem}h3{margin-top:1.8rem}a{color:#254c97;text-underline-offset:3px}a:focus-visible{outline:3px solid #4338a8;outline-offset:3px}nav{border:1px solid #acbbac;border-radius:8px;padding:15px 25px;background:white}nav>ul{padding-left:20px}code{font-size:.9em;background:#e6ecdf;padding:2px 4px;border-radius:3px}pre{background:#e6ecdf;padding:16px;border-radius:6px;overflow:auto}pre code{padding:0}table{border-collapse:collapse;width:100%;font-size:.95rem;margin:20px 0}th,td{border:1px solid #acbbac;padding:9px 12px;text-align:left}th{color:white;background:#183c35}strong{font-weight:750}li{margin:.35em 0}blockquote{margin-left:0;padding-left:20px;border-left:4px solid #7b917e}@media(max-width:600px){h1{font-size:1.7rem}main{padding:20px 16px}th,td{padding:7px}}@media print{nav{display:none}body{background:white}main{max-width:none;padding:0}a{color:inherit}pre{white-space:pre-wrap}}
+</style></head><body><main><nav aria-label="Sommaire de l’énoncé"><strong>Sommaire</strong><ul>
+<li><a href="#atelierlocal-projet-final-daccessibilité"
+id="toc-atelierlocal-projet-final-daccessibilité">AtelierLocal — Projet
+final d’accessibilité</a>
+<ul>
+<li><a href="#votre-mission-et-le-barème"
+id="toc-votre-mission-et-le-barème">1. Votre mission et le
+barème</a></li>
+<li><a href="#installer-et-démarrer" id="toc-installer-et-démarrer">2.
+Installer et démarrer</a></li>
+<li><a href="#partie-1-auditer-et-corriger-lapplication"
+id="toc-partie-1-auditer-et-corriger-lapplication">3. Partie 1 — Auditer
+et corriger l’application</a>
+<ul>
+<li><a href="#démarche-attendue" id="toc-démarche-attendue">Démarche
+attendue</a></li>
+<li><a href="#document-à-produire-audit.md"
+id="toc-document-à-produire-audit.md">Document à produire :
+AUDIT.md</a></li>
+</ul></li>
+<li><a href="#partie-2-créer-un-composant-poser-une-question"
+id="toc-partie-2-créer-un-composant-poser-une-question">4. Partie 2 —
+Créer un composant : poser une question</a>
+<ul>
+<li><a href="#contenu-et-fonctionnement-attendus"
+id="toc-contenu-et-fonctionnement-attendus">Contenu et fonctionnement
+attendus</a></li>
+<li><a href="#accessibilité-du-parcours"
+id="toc-accessibilité-du-parcours">Accessibilité du parcours</a></li>
+<li><a href="#ressources-fournies"
+id="toc-ressources-fournies">Ressources fournies</a></li>
+<li><a href="#barème-du-composant-10-points"
+id="toc-barème-du-composant-10-points">Barème du composant — 10
+points</a></li>
+</ul></li>
+<li><a href="#écrire-le-mini-test-4-points"
+id="toc-écrire-le-mini-test-4-points">5. Écrire le mini-test — 4
+points</a></li>
+<li><a href="#rendu-et-vérifications-finales"
+id="toc-rendu-et-vérifications-finales">6. Rendu et vérifications
+finales</a></li>
+</ul></li>
+</ul></nav><h1
+id="atelierlocal-projet-final-daccessibilité">AtelierLocal — Projet
+final d’accessibilité</h1>
+<p><strong>Travail en binôme · Projet sur 30 points · Délai : une
+semaine après la séance</strong></p>
+<p>Vous reprenez une application React qui présente trois ateliers
+culturels. Vous devez découvrir son parcours, identifier et corriger six
+problèmes d’accessibilité, puis ajouter un composant permettant de poser
+une question à l’organisateur.</p>
+<p>L’objectif est de rendre les tâches compréhensibles et réalisables.
+Vous pouvez réutiliser et adapter les snippets de CinéScope. Vous n’avez
+pas à refaire le design, installer un serveur ou réaliser un envoi
+réel.</p>
+<h2 id="votre-mission-et-le-barème">1. Votre mission et le barème</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Travail</th>
+<th style="text-align: right;">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Deux problèmes de parcours, à 4 points chacun</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="even">
+<td>Quatre problèmes ciblés, à 2 points chacun</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td>Un composant accessible : poser une question</td>
+<td style="text-align: right;">10</td>
+</tr>
+<tr class="even">
+<td>Un mini-test sur ce composant</td>
+<td style="text-align: right;">4</td>
+</tr>
+<tr class="odd">
+<td><strong>Total projet en binôme</strong></td>
+<td style="text-align: right;"><strong>30</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Les deux QCM individuels valent ensemble 10 points. Pour chaque
+étudiant : <strong>note finale sur 20 = (projet sur 30 + QCM sur 10) /
+2</strong>.</p>
+<p>Les problèmes doivent être justifiés dans <code>AUDIT.md</code> et
+corrigés dans le code. Pour un problème ciblé : 1 point pour le constat
+et son impact, 1 point pour la correction. Pour un problème de parcours
+: 2 points pour le diagnostic et l’explication des difficultés liées, 2
+points pour l’ensemble cohérent des corrections.</p>
+<p>Si un même problème apparaît à plusieurs endroits, décrivez-le une
+seule fois et corrigez toutes ses occurrences.</p>
+<h2 id="installer-et-démarrer">2. Installer et démarrer</h2>
+<p>Prérequis : Node.js <strong>24.15 ou plus récent dans la branche
+24</strong>, recommandé pour les dépendances fournies. Les branches 22
+(à partir de 22.22.2) et 26 ou plus récentes sont également compatibles.
+Ouvrez un terminal à la racine du projet, où se trouve
+<code>package.json</code>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> ci</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run dev</span></code></pre></div>
+<p>Ouvrez l’adresse affichée par Vite, habituellement
+<code>http://localhost:5173</code>. Dans un second terminal :</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> test <span class="at">--</span> <span class="at">--run</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> run build</span></code></pre></div>
+<p>Au départ, trois tests fonctionnels passent et le test du composant
+est marqué <code>TODO</code>. Cela confirme que le projet démarre ; cela
+ne prouve pas son accessibilité. Vous devez remplacer le TODO par votre
+test.</p>
+<p>Les ateliers et les actions sont fictifs. Employez uniquement des
+noms et adresses électroniques fictifs. Aucun paiement, email ni
+réservation réelle n’est réalisé.</p>
+<h2 id="partie-1-auditer-et-corriger-lapplication">3. Partie 1 — Auditer
+et corriger l’application</h2>
+<p>Explorez AtelierLocal et ses principales fonctionnalités : rechercher
+un atelier, consulter ses détails et effectuer une préinscription.
+Identifiez, documentez et corrigez <strong>six problèmes
+d’accessibilité</strong>.</p>
+<h3 id="démarche-attendue">Démarche attendue</h3>
+<ol type="1">
+<li><strong>Découvrir le parcours</strong> : utilisez les
+fonctionnalités et observez les informations présentées ainsi que les
+changements provoqués par vos actions.</li>
+<li><strong>Parcourir l’application au clavier</strong> : essayez les
+commandes, suivez le focus et vérifiez que les interactions sont
+réalisables.</li>
+<li><strong>Vérifier la sémantique HTML</strong> : examinez la structure
+de la page et le choix des éléments employés.</li>
+<li><strong>Examiner les informations et les états</strong> : vérifiez
+que les informations nécessaires sont compréhensibles et que les actions
+et leurs résultats sont cohérents.</li>
+<li><strong>Approfondir votre diagnostic</strong> : vous pouvez vous
+appuyer sur les outils de diagnostic présentés en cours pour compléter
+vos vérifications manuelles.</li>
+<li><strong>Documenter, corriger et vérifier</strong> : expliquez les
+problèmes dans <code>AUDIT.md</code>, appliquez vos corrections, puis
+rejouez les manipulations pour vérifier le résultat.</li>
+</ol>
+<p>Ne vous limitez pas à la page au chargement : observez également ce
+qui change lorsque vous utilisez ses fonctionnalités.</p>
+<p>Vos corrections doivent préserver le fonctionnement de
+l’application.</p>
+<h3 id="document-à-produire-audit.md">Document à produire :
+AUDIT.md</h3>
+<p>Pour chacun des six problèmes, utilisez les quatre rubriques
+suivantes :</p>
+<ul>
+<li><strong>Problème identifié</strong> : le défaut observé et la
+difficulté qu’il peut provoquer pour une personne.</li>
+<li><strong>Reproduction</strong> : les étapes permettant de constater
+le problème, en précisant si nécessaire les outils employés.</li>
+<li><strong>Comportement attendu</strong> : ce qu’une personne devrait
+pouvoir comprendre ou réaliser.</li>
+<li><strong>Correction à apporter</strong> : la modification envisagée
+et sa justification. Après réalisation, précisez la modification
+réellement effectuée et le résultat de votre vérification.</li>
+</ul>
+<p>Quelques phrases par rubrique suffisent. Vous pouvez partir de
+<code>MODELE-AUDIT.md</code> ou organiser vous-mêmes votre fichier
+autour de ces quatre rubriques. Une liste d’attributs ajoutés sans
+explication ne suffit pas.</p>
+<h2 id="partie-2-créer-un-composant-poser-une-question">4. Partie 2 —
+Créer un composant : poser une question</h2>
+<p>Une personne souhaite obtenir une information avant de s’inscrire à
+un atelier. Ajoutez une action <strong>« Poser une question »</strong>
+sur chaque carte. Elle ouvre une fenêtre modale permettant de contacter
+l’organisateur au sujet de cet atelier.</p>
+<h3 id="contenu-et-fonctionnement-attendus">Contenu et fonctionnement
+attendus</h3>
+<p>Le composant doit comporter :</p>
+<ul>
+<li>un titre permettant d’identifier l’atelier concerné ;</li>
+<li>un <strong>select natif</strong> pour choisir le sujet : « Les
+horaires », « Le matériel à apporter », « L’accès au lieu » ou « Un
+autre sujet » ;</li>
+<li>un champ pour l’adresse électronique ;</li>
+<li>une zone de texte pour rédiger la question ;</li>
+<li>une action pour envoyer la demande ;</li>
+<li>une possibilité d’annuler ou de fermer la fenêtre.</li>
+</ul>
+<p>Pour mettre en place le sélecteur, consultez la <a
+href="https://developer.mozilla.org/fr/docs/Web/HTML/Reference/Elements/select">documentation
+MDN de l’élément <code>&lt;select&gt;</code></a>. Utilisez le contrôle
+HTML natif : il n’est pas demandé de reconstruire une liste déroulante
+personnalisée.</p>
+<p>Si vous ne parvenez pas à intégrer le select, vous pouvez proposer un
+groupe de boutons radio présentant les mêmes sujets. Expliquez ce choix
+dans votre compte rendu. Dans les deux cas, le choix doit être
+accessible au clavier.</p>
+<p>Les trois champs sont obligatoires. Aucun sujet ne doit être
+présélectionné : le choix initial du select invite à sélectionner un
+sujet ; avec des boutons radio, aucun n’est coché au départ. L’adresse
+doit être non vide et sa syntaxe vérifiée ; il n’est pas demandé de
+vérifier son existence. La question ne peut pas être vide ou constituée
+uniquement d’espaces.</p>
+<p>Après un envoi valide, la fenêtre se ferme et une confirmation
+indique <strong>l’atelier concerné et le sujet choisi</strong>, sans
+reprendre les coordonnées de contact. Annuler ou fermer ne doit
+transmettre aucune demande. Contacter l’organisateur reste possible
+lorsqu’un atelier est complet.</p>
+<h3 id="accessibilité-du-parcours">Accessibilité du parcours</h3>
+<p>La fonctionnalité doit permettre de <strong>comprendre quoi
+renseigner, identifier une éventuelle difficulté, la corriger et
+connaître le résultat de sa demande</strong>.</p>
+<p><strong>À vous de déterminer et de mettre en œuvre les solutions
+d’accessibilité adaptées</strong>, en vous appuyant sur les séances
+précédentes. Cette attente concerne l’ensemble du parcours, de
+l’ouverture à la fermeture, y compris les tentatives d’envoi qui
+n’aboutissent pas. Vos choix HTML, la navigation au clavier et la
+manière de transmettre les informations font partie du travail
+évalué.</p>
+<p>Ajoutez une courte section <strong>« Composant créé »</strong> dans
+<code>AUDIT.md</code> pour expliquer vos principaux choix et les
+manipulations réalisées pour les vérifier.</p>
+<h3 id="ressources-fournies">Ressources fournies</h3>
+<p>Les types, les options et la fonction
+<code>readRequest(form, kind, workshopId)</code> sont fournis dans
+<code>src/requests.ts</code>. Appelez cette fonction avec
+<code>kind = "question"</code>. Elle utilise les noms de champs
+<strong>choice</strong>, <strong>contact</strong> et
+<strong>message</strong>, et retourne <code>{ values, errors }</code>,
+comme le validateur de CinéScope. Elle n’affiche rien et ne prend pas en
+charge l’interface.</p>
+<p>Le contrat <code>RequestDialogProps</code> fournit l’atelier concerné
+et les fonctions <code>onSubmit(values)</code> et
+<code>onClose()</code>. <code>WorkshopCard</code> possède une propriété
+facultative <code>extraAction</code> pour intégrer votre bouton. Les
+styles de base sont disponibles dans <code>src/styles.css</code>.</p>
+<p>Vous pouvez réutiliser et adapter les snippets des cours précédents.
+Aucun email réel ni envoi réseau n’est attendu : l’envoi est simulé dans
+l’application. Utilisez uniquement des coordonnées fictives.</p>
+<h3 id="barème-du-composant-10-points">Barème du composant — 10
+points</h3>
+<table>
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 57%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Critère</th>
+<th style="text-align: right;">Points</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Intégration et prise en compte du bon atelier</td>
+<td style="text-align: right;">2</td>
+</tr>
+<tr class="even">
+<td>Accessibilité de la modale et continuité de la navigation</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="odd">
+<td>Accessibilité du formulaire et possibilité de se reprendre après une
+erreur</td>
+<td style="text-align: right;">3</td>
+</tr>
+<tr class="even">
+<td>Confirmation compréhensible et cohérence des actions</td>
+<td style="text-align: right;">2</td>
+</tr>
+</tbody>
+</table>
+<h2 id="écrire-le-mini-test-4-points">5. Écrire le mini-test — 4
+points</h2>
+<p>Remplacez le TODO de <code>src/__tests__/Composant.test.tsx</code>
+par un test suivant la méthode utilisée en séance 3 : affichez
+l’application avec <code>render(&lt;App /&gt;)</code>, puis simulez les
+actions avec <code>userEvent</code>. Vitest et Testing Library sont déjà
+configurés.</p>
+<p>Le scénario à tester est le suivant :</p>
+<ol type="1">
+<li>Ouvrez « Poser une question » pour l’atelier <strong>« Une tasse en
+céramique »</strong>.</li>
+<li>Choisissez <strong>« Le matériel à apporter »</strong> et rédigez
+une question. Si vous avez utilisé des boutons radio, sélectionnez ce
+même sujet.</li>
+<li>Laissez l’adresse électronique vide, puis essayez d’envoyer.</li>
+<li>Vérifiez qu’une erreur est indiquée, que la modale reste ouverte et
+que le sujet choisi et la question sont conservés. Aucune confirmation
+d’envoi ne doit apparaître.</li>
+<li>Renseignez une adresse électronique valide, puis envoyez à
+nouveau.</li>
+<li>Vérifiez que la modale se ferme et qu’une confirmation indique
+<strong>« Une tasse en céramique »</strong> et <strong>« Le matériel à
+apporter »</strong>.</li>
+</ol>
+<p>Barème : ouverture et saisie du scénario (1 point), erreur et absence
+de confirmation après l’envoi incomplet (1 point), conservation du sujet
+et de la question (1 point), fermeture et confirmation du bon atelier et
+du bon sujet après l’envoi valide (1 point).</p>
+<h2 id="rendu-et-vérifications-finales">6. Rendu et vérifications
+finales</h2>
+<p>Un seul dépôt GitHub accessible à l’enseignant par binôme.
+Transmettez son lien selon le canal indiqué en cours. Complétez le
+README fourni avec les noms des membres du binôme. Mettez à jour les
+commandes de lancement si vous les avez modifiées. Le délai est d’une
+semaine après la séance ; la date et l’heure exactes seront annoncées
+par l’enseignant.</p>
+<p>Le dépôt doit contenir :</p>
+<ul>
+<li>l’application et ses corrections, avec <code>package.json</code> et
+<code>package-lock.json</code> ;</li>
+<li>le nouveau composant intégré ;</li>
+<li>votre mini-test ;</li>
+<li><code>AUDIT.md</code>, avec les six problèmes et leurs corrections
+;</li>
+<li>le README fourni, complété avec les noms des membres du binôme et
+les commandes de lancement à jour.</li>
+</ul>
+<p>N’incluez pas <code>node_modules</code> ni <code>dist</code>. Avant
+de rendre, lancez <code>npm test -- --run</code> et
+<code>npm run build</code>, puis refaites vos essais sur l’application
+et votre nouvelle action au clavier. Si vous avez utilisé un lecteur
+d’écran, indiquez lequel et ce que vous avez réellement constaté. Un
+test DOM ne prouve pas la restitution vocale.</p>
+<p>Le projet doit garder la recherche, les données et les fonctions
+utiles de l’application. Les modifications visuelles nécessaires à
+l’accessibilité sont autorisées ; une refonte graphique n’apporte pas de
+points en elle-même.</p></main></body></html>
