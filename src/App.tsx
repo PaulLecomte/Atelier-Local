@@ -66,14 +66,14 @@ export default function App() {
             <input type="search" id="workshop-search" aria-describedby="workshop-search-help" value={query} onChange={event => setQuery(event.target.value)} />
             <p className="search-help" id="workshop-search-help">Saisissez un titre ou une ville.</p>
           </div>
-          <div className="action-result" role="status">
-            {notice && <p className="notice">{notice}</p>}
+          <div className="registration-result" role="status">
+            <p className={notice ? "notice" : "notice-empty"}>{notice}</p>
           </div>
           {visible.length > 0 ? (
             <div className="workshop-grid">
               {visible.map(workshop => (
                 <WorkshopCard key={workshop.id} workshop={workshop} onReserve={reserve} extraAction={
-                  <button type="button" className="contact-button" aria-haspopup="dialog" onClick={event => openQuestion(workshop, event)}>
+                  <button type="button" className="contact-button" onClick={event => openQuestion(workshop, event)}>
                     Poser une question sur {workshop.title}
                   </button>
                 } />

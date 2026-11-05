@@ -27,7 +27,7 @@ describe("Question à l’organisateur", () => {
     const email = within(dialog).getByRole("textbox", { name: /Adresse électronique/ });
     expect(email).toHaveAttribute("aria-invalid", "true");
     expect(email).toHaveAccessibleDescription(/Saisissez une adresse électronique au format nom@exemple\.fr/);
-    expect(within(dialog).getByRole("heading", { name: /Une erreur empêche l’envoi/ })).toBeInTheDocument();
+    expect(email).toHaveFocus();
     expect(dialog).toBeInTheDocument();
     expect(dialog).toHaveAttribute("open");
     expect(subject).toHaveValue("materiel");

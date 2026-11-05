@@ -31,9 +31,9 @@ Une personne doit pouvoir atteindre la commande au clavier, comprendre que c’e
 
 ### Correction à apporter
 
-Utiliser le motif « disclosure » avec un bouton natif : `<button type="button" aria-expanded aria-controls>`. Le bouton natif apporte rôle, focus et activation clavier ; `aria-expanded` expose l’état ; `aria-controls` relie le bouton à son panneau. Le panneau fermé reçoit l’attribut `hidden` (règle `.details-panel[hidden]{display:none}` déjà prévue dans la feuille de style) : son contenu n’est plus ni visible, ni focalisable, ni exposé, ce qui supprime le `aria-hidden` contradictoire.
+Utiliser le motif « disclosure » avec un bouton natif : `<button type="button" aria-expanded>`. Le bouton natif apporte rôle, focus et activation clavier ; `aria-expanded` expose l’état. Le panneau fermé reçoit l’attribut `hidden` (règle `.details-panel[hidden]{display:none}` déjà prévue dans la feuille de style) : son contenu n’est plus ni visible, ni focalisable, ni exposé, ce qui supprime le `aria-hidden` contradictoire.
 
-**Réalisé** (`src/components/WorkshopCard.tsx`) : la `div` est remplacée par un `button` (même classe, apparence inchangée) avec `aria-expanded={expanded}`, `aria-controls` vers l’`id` du panneau (généré par `useId`) et `aria-describedby` vers le titre de l’atelier, pour distinguer les trois boutons « Détails de l’atelier » hors contexte. Le panneau utilise `hidden={!expanded}` à la place de `aria-hidden`.
+**Réalisé** (`src/components/WorkshopCard.tsx`) : la `div` est remplacée par un `button` (même classe, apparence inchangée) avec `aria-expanded={expanded}`. Le panneau utilise `hidden={!expanded}` à la place de `aria-hidden`.
 
 **Vérification** : au clavier, Tab atteint « Détails de l’atelier » avec un contour visible ; Entrée et Espace déplient/replient ; DevTools affiche rôle `button`, état `expanded: false` puis `true`. Panneau fermé : `display: none`, le lien n’est plus un arrêt de tabulation ; une fois ouvert, Tab l’atteint juste après le bouton.
 
@@ -63,7 +63,7 @@ Après l’action, la personne doit savoir — sans déplacer son focus ni cherc
 
 Créer une région de statut **présente dès le chargement** (`role="status"`, équivalente à `aria-live="polite"`), placée dans la section du catalogue, juste après la recherche et avant les cartes, puis y insérer le message. La région existant avant le changement, son nouveau contenu est annoncé poliment sans voler le focus. Le focus reste sur le bouton (pas de déplacement inutile).
 
-**Réalisé** (`src/App.tsx`, `src/styles.css`) : l’ancien bloc `.registration-result` en bas de page est supprimé ; une `div className="action-result" role="status"` est toujours rendue dans le catalogue et contient le message quand il existe. Cette même région sert à la confirmation du nouveau composant (« Poser une question »), ce qui rend les résultats d’action cohérents dans toute l’application.
+**Réalisé** (`src/App.tsx`) : le bloc existant `.registration-result` est déplacé du bas de page vers le catalogue, juste après la recherche, et reçoit `role="status"`. Il est rendu dès le chargement (paragraphe vide), seul son texte change. Cette même région sert à la confirmation du nouveau composant (« Poser une question »), ce qui rend les résultats d’action cohérents dans toute l’application.
 
 **Vérification** : au clavier, après Entrée sur « M’inscrire à … », le message apparaît au-dessus des cartes, dans la zone visible ; le focus reste sur le bouton ; DevTools montre la région `status` (live polite) présente avant le clic et remplie après.
 
@@ -115,7 +115,7 @@ Les illustrations sont décoratives : le titre, la catégorie, la date et le lie
 
 ### Problème identifié
 
-Le nom de chaque atelier était un `<p class="workshop-title">`, mis en forme comme un titre mais sans sémantique. La structure de la page saute donc de « Les prochains ateliers » (h2) à « Une découverte, simplement » (h2) : une personne qui navigue par titres (touche H d’un lecteur d’écran, panneau des repères) **ne peut pas passer d’un atelier à l’autre** ni repérer leur nom ; les `article` n’ont pas de nom.
+Le nom de chaque atelier était un `<p class="workshop-title">`, mis en forme comme un titre mais sans sémantique. La structure de la page saute donc de « Les prochains ateliers » (h2) à « Une découverte, simplement » (h2) : une personne qui navigue par titres (touche H d’un lecteur d’écran, panneau des repères) **ne peut pas passer d’un atelier à l’autre** ni repérer leur nom.
 
 ### Reproduction
 
@@ -123,12 +123,12 @@ DevTools > Accessibility (ou extension listant les titres) : liste h1, h2, h2, h
 
 ### Comportement attendu
 
-Chaque atelier est un titre de niveau 3 sous « Les prochains ateliers », et chaque carte est identifiée par ce titre.
+Chaque atelier est un titre de niveau 3 sous « Les prochains ateliers ».
 
 ### Correction à apporter
 
-**Réalisé** (`src/components/WorkshopCard.tsx`) : `<h3 className="workshop-title">` (la classe existante conserve exactement l’apparence) et `aria-labelledby` de l’`article` vers ce titre.
-**Vérification** : la hiérarchie devient h1 › h2 « Les prochains ateliers » › h3 (×3 ateliers) › h2 « Une découverte… » › h3 (×3) ; chaque article est nommé par son atelier.
+**Réalisé** (`src/components/WorkshopCard.tsx`) : `<h3 className="workshop-title">` (la classe existante conserve exactement l’apparence).
+**Vérification** : la hiérarchie devient h1 › h2 « Les prochains ateliers » › h3 (×3 ateliers) › h2 « Une découverte… » › h3 (×3).
 
 ---
 
@@ -155,44 +155,40 @@ Le focus est toujours visible, avec le même indicateur que le reste de l’appl
 
 ## Composant créé
 
-**Fichiers** : `src/components/QuestionDialog.tsx` (composant), intégration dans `src/App.tsx` via la propriété `extraAction` de `WorkshopCard`.
+**Fichiers** : `src/components/QuestionDialog.tsx`, intégré dans `src/App.tsx` via la propriété `extraAction` de `WorkshopCard`.
 
-**Intégration et bon atelier.** Chaque carte (y compris l’atelier complet « Broder un petit paysage ») reçoit un bouton natif « Poser une question sur *titre de l’atelier* ». Le titre fait partie du texte visible, sur le modèle de « M’inscrire à … » : le nom est unique hors contexte et correspond à ce qui est affiché. `aria-haspopup="dialog"` indique qu’une fenêtre va s’ouvrir. L’atelier cliqué est transmis au composant (`RequestDialogProps.workshop`) et à `readRequest(form, "question", workshop.id)` ; la confirmation retrouve l’atelier depuis `values.workshopId`.
+**Intégration et bon atelier.** Chaque carte, y compris l’atelier complet, reçoit un bouton natif « Poser une question sur *titre de l’atelier* » (même modèle que « M’inscrire à … » : nom unique, identique au texte visible). L’atelier cliqué est passé au composant et à `readRequest(form, "question", workshop.id)` ; la confirmation retrouve l’atelier depuis `values.workshopId`.
 
 **Modale et continuité de la navigation.**
-- `<dialog>` natif ouvert avec `showModal()` : le reste de la page devient inerte (ni clic, ni Tab, ni lecture hors de la fenêtre), sans piège de focus fait à la main.
-- Nom de la fenêtre : `aria-labelledby` vers le titre h2 « Poser une question sur « Une tasse en céramique » » ; description : `aria-describedby` vers la date, le lieu et la mention « Les trois champs sont obligatoires ».
-- À l’ouverture, le focus est placé sur ce titre (`tabIndex={-1}` : ciblable par script, mais pas un arrêt de Tab), pour que la personne entende d’abord de quel atelier il s’agit, puis Tab parcourt les contrôles dans l’ordre visuel.
-- Fermeture par « Annuler », par la croix (bouton nommé « Fermer », symbole × masqué) ou par Échap (événement natif `cancel`). Aucune de ces voies n’appelle `onSubmit` : aucune demande n’est transmise.
-- À toute fermeture (annulation ou envoi), le focus revient au bouton « Poser une question sur … » qui a ouvert la fenêtre. Ce retour est fait dans un effet, après le retrait de la fenêtre, car tant qu’elle est modale le reste de la page est inerte et ne peut pas recevoir le focus.
+- `<dialog>` natif ouvert avec `showModal()` : le reste de la page devient inerte, sans piège de focus à coder.
+- La fenêtre est nommée par son titre h2 (`aria-labelledby`), qui cite l’atelier. À l’ouverture, le focus est placé sur ce titre (`tabIndex={-1}` : pas un arrêt de Tab), pour annoncer d’abord de quel atelier il s’agit.
+- Fermeture par « Annuler », par la croix (nommée « Fermer ») ou par Échap (événement natif `cancel`) : aucune n’appelle `onSubmit`, aucune demande n’est transmise.
+- À la fermeture (annulation ou envoi), le focus revient au bouton qui a ouvert la fenêtre. Ce retour se fait après le retrait de la fenêtre, car tant qu’elle est modale le reste de la page ne peut pas recevoir le focus.
 
 **Formulaire et reprise après erreur.**
-- Chaque contrôle a un `label` visible relié par `htmlFor`, avec « (obligatoire) » dans le libellé ; `required` exprime la contrainte, et `noValidate` laisse notre code présenter des messages compréhensibles (comme en séance 3).
-- Le sujet est un **`<select>` natif** (`name="choice"`), avec une première option vide « Sélectionnez un sujet » sélectionnée par défaut : aucun sujet n’est présélectionné, et le contrôle reste utilisable au clavier avec le comportement natif (flèches, lettres, Alt+↓).
-- L’adresse est un `input type="email"` avec `autoComplete="email"` et une aide « Format attendu : nom@exemple.fr » reliée par `aria-describedby` ; la question est un `textarea`. Le validateur fourni refuse un message vide ou constitué d’espaces et une adresse vide ou mal formée.
-- En cas d’erreur : chaque champ fautif reçoit `aria-invalid="true"`, une bordure renforcée (`.invalid`) et un message proche, relié par `aria-describedby` (le message ne repose donc pas que sur la couleur) ; un **résumé des erreurs** apparaît en haut du formulaire, avec un titre qui en donne le nombre et un lien par erreur (« Adresse électronique : Saisissez une adresse… ») qui donne le focus au champ concerné. Le focus est déplacé sur ce résumé à chaque envoi refusé, pour que la personne sache immédiatement pourquoi rien ne s’est passé.
-- Les champs ne sont pas contrôlés ni réinitialisés : le sujet et la question déjà saisis sont **conservés** ; seul le champ à corriger doit être modifié.
+- Chaque contrôle a un `label` visible relié par `htmlFor`, qui indique « (obligatoire) » et, pour l’adresse, le format attendu. `noValidate` laisse notre code afficher les messages du validateur (comme en séance 3).
+- Le sujet est un **`<select>` natif** (`name="choice"`) dont la première option vide « Sélectionnez un sujet » est sélectionnée par défaut : aucun sujet n’est présélectionné, et le clavier fonctionne nativement.
+- En cas d’erreur, chaque champ fautif reçoit `aria-invalid="true"` et un message texte placé sous lui, relié par `aria-describedby` ; le focus est déplacé sur le **premier champ en erreur**, qui est alors annoncé avec son erreur.
+- Les champs ne sont jamais réinitialisés : le sujet et la question saisis sont **conservés**.
 
-**Confirmation et cohérence.** Après un envoi valide, la fenêtre se ferme, le focus revient au déclencheur et la région `role="status"` du catalogue (créée pour le problème 2) annonce : « Votre question sur « Le matériel à apporter » a été transmise à l’organisateur de l’atelier « Une tasse en céramique ». Envoi simulé, aucune donnée n’est transmise. » Le message cite l’atelier et le libellé du sujet, jamais l’adresse électronique. Les libellés « Envoyer la question » / « Annuler » décrivent précisément les actions, et une mention rappelle que l’envoi est simulé.
+**Confirmation et cohérence.** Après un envoi valide, la fenêtre se ferme et la région `role="status"` du problème 2 affiche : « Votre question sur « Le matériel à apporter » a été transmise à l’organisateur de l’atelier « Une tasse en céramique ». Envoi simulé, aucune donnée n’est transmise. » L’adresse électronique n’est jamais reprise.
 
-**Manipulations de vérification** (navigateur Chromium, clavier uniquement, état lu avec `document.activeElement` et l’onglet Accessibility) :
-1. Tab jusqu’à « Poser une question sur Une tasse en céramique », Entrée : la fenêtre s’ouvre en modal (`:modal`), le focus est sur son titre.
-2. Échap : la fenêtre se ferme, aucune confirmation n’apparaît, le focus est revenu sur le bouton.
-3. Entrée pour rouvrir, Tab (croix) puis Tab (select), flèche bas ×2 : « Le matériel à apporter » ; Tab Tab, saisie de la question ; Tab, Entrée sur « Envoyer la question » sans adresse.
-4. La fenêtre reste ouverte, le focus est sur le résumé « Une erreur empêche l’envoi de votre question » ; le sujet vaut `materiel`, la question est conservée, le champ adresse a `aria-invalid="true"`, aucune confirmation.
-5. Tab sur le lien du résumé, Entrée : le focus est dans le champ adresse, décrit par l’aide et l’erreur ; saisie d’une adresse fictive, Entrée.
-6. La fenêtre disparaît, le focus revient au bouton déclencheur, la région de statut affiche l’atelier et le sujet attendus.
-7. Le bouton est aussi présent et fonctionnel sur l’atelier complet « Broder un petit paysage ».
+**Manipulations de vérification** (Chromium, clavier uniquement, `document.activeElement` et onglet Accessibility) :
+1. Tab jusqu’à « Poser une question sur Une tasse en céramique », Entrée : la fenêtre s’ouvre en modale, le focus est sur son titre.
+2. Échap : la fenêtre se ferme sans confirmation, le focus revient sur le bouton.
+3. Rouvrir, choisir « Le matériel à apporter » aux flèches, écrire la question, envoyer sans adresse.
+4. La fenêtre reste ouverte, le focus est dans le champ adresse, annoncé invalide avec son message ; sujet et question conservés ; aucune confirmation.
+5. Saisir une adresse fictive et envoyer : la fenêtre disparaît, le focus revient au bouton, la confirmation cite l’atelier et le sujet.
 
-Limite : aucun lecteur d’écran n’a été utilisé ; la restitution vocale des annonces (région de statut, résumé d’erreurs) reste à confirmer, par exemple avec NVDA + Firefox ou Chrome.
+Limite : aucun lecteur d’écran n’a été utilisé ; la restitution vocale reste à confirmer (par exemple NVDA).
 
 ## Mini-test
 
 - **Fichier** : `src/__tests__/Composant.test.tsx`.
-- **Résultat** : `npm test -- --run` → 2 fichiers, 4 tests réussis (3 tests de démarrage + le mini-test). `npm run build` réussit.
-- **Ce que le test vérifie**, depuis `render(<App />)` et `userEvent`, en ne trouvant les éléments que par leurs rôles et noms accessibles (ce qui vérifie aussi que les libellés sont bien reliés) :
-  1. ouverture via le bouton « Poser une question sur Une tasse en céramique » et présence d’un `dialog` nommé avec cet atelier ;
-  2. choix de « Le matériel à apporter » dans le `combobox` « Sujet de la question » (`selectOptions`) et saisie de la question ;
-  3. envoi sans adresse : `aria-invalid="true"` et message d’erreur dans la description accessible du champ adresse, titre du résumé des erreurs présent, modale toujours ouverte, sujet (`materiel`) et question conservés, aucune confirmation ;
-  4. après saisie d’une adresse fictive valide et nouvel envoi : modale retirée, confirmation contenant « Une tasse en céramique » et « Le matériel à apporter » mais pas l’adresse, focus revenu sur le bouton déclencheur.
-- Le test DOM tourne sous jsdom (avec l’adaptation de `showModal` fournie dans `src/test-setup.ts`) : il ne prouve ni l’inertie réelle de la page, ni la restitution vocale.
+- **Résultat** : `npm test -- --run` → 4 tests réussis (3 de démarrage + le mini-test). `npm run build` réussit.
+- **Ce que le test vérifie**, depuis `render(<App />)` et `userEvent`, en trouvant les éléments par leurs rôles et noms accessibles :
+  1. ouverture de la fenêtre pour « Une tasse en céramique », choix de « Le matériel à apporter » (`selectOptions`) et saisie de la question ;
+  2. envoi sans adresse : champ adresse `aria-invalid="true"`, message d’erreur dans sa description accessible, focus sur ce champ, modale toujours ouverte, aucune confirmation ;
+  3. sujet (`materiel`) et question conservés ;
+  4. après saisie d’une adresse valide : modale fermée, confirmation avec le bon atelier et le bon sujet (sans l’adresse), focus revenu sur le bouton.
+- Le test tourne sous jsdom : il ne prouve ni l’inertie réelle de la page, ni la restitution vocale.
